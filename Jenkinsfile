@@ -42,6 +42,13 @@ pipeline {
             steps {
                 echo "═══ Налаштування Python середовища ═══"
                 sh '''
+                    if ! command -v python3 &> /dev/null; then
+                        echo "Python3 не знайдено — встановлюємо через apt..."
+                        apt-get update -qq
+                        apt-get install -y -qq python3 python3-pip python3-venv
+                        echo "Python3 встановлено"
+                    fi
+
                     python3 --version
                     
                     python3 -m venv ${VENV_DIR}
